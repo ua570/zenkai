@@ -1,155 +1,374 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zenkai – Naruto RP</title>
-<style>
-  :root {
-    --bg: #0f1117;
-    --card: #1a1d27;
-    --text: #e8e9ee;
-    --muted: #9aa0b2;
-    --accent: #ff8a3d;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.6;
-  }
-  .wrap { max-width: 820px; margin: 0 auto; padding: 32px 16px 64px; }
-  h1 { font-size: 2rem; margin: 0 0 8px; color: var(--accent); }
-  h2 { font-size: 1.2rem; margin: 40px 0 16px; }
-  p { margin: 0 0 12px; color: var(--text); }
-  .muted { color: var(--muted); }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zenkai – Naruto RP</title>
 
-  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .card {
-    background: var(--card);
-    border: 2px solid transparent;
-    border-radius: 14px;
-    padding: 0;
-    cursor: pointer;
-    color: inherit;
-    font: inherit;
-    text-align: left;
-    overflow: hidden;
-    transition: transform .15s, border-color .15s;
-  }
-  .card:hover, .card:focus-visible { transform: translateY(-3px); border-color: var(--accent); outline: none; }
-  .card .thumb { aspect-ratio: 3 / 4; width: 100%; background: #252938; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--muted); }
-  .card .thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
-  .card .label { padding: 12px 14px; }
-  .card .label strong { display: block; font-size: 1.05rem; }
-  .card .label span { font-size: .85rem; color: var(--muted); }
-
-  .detail { display: none; background: var(--card); border-radius: 14px; padding: 20px; margin-top: 8px; }
-  .detail.open { display: block; }
-  .detail img.portrait { width: 100%; max-height: 480px; object-fit: contain; background: #252938; border-radius: 10px; margin-bottom: 16px; }
-  .detail .placeholder { width: 100%; aspect-ratio: 4 / 3; background: #252938; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--muted); margin-bottom: 16px; }
-  .back { background: none; border: 1px solid var(--muted); color: var(--text); padding: 6px 14px; border-radius: 8px; cursor: pointer; font: inherit; margin-bottom: 16px; }
-  .back:hover { border-color: var(--accent); color: var(--accent); }
-
-  @media (max-width: 480px) { .cards { gap: 10px; } h1 { font-size: 1.6rem; } }
-</style>
-</head>
-<body>
-<div class="wrap">
-
-  <!-- ===== ERKLÄRUNG: hier Text anpassen ===== -->
-  <h1>Zenkai</h1>
-  <p>
-    Zenkai ist ein Naruto-Roleplay-Server. Hier erklärst du kurz, worum es geht:
-    wie das RP funktioniert, was die Spieler erleben und warum ihr dabei seid.
-  </p>
-  <p class="muted">Klick unten auf einen Charakter, um mehr über ihn zu erfahren.</p>
-
-  <h2>Unsere Charaktere</h2>
-  <div class="cards" id="cards"></div>
-
-  <div class="detail" id="detail"></div>
-
-</div>
-
-<script>
-  // ===== HIER DEINE CHARAKTERE EINTRAGEN =====
-  // image: Pfad zum Bild im Repo, z. B. "images/shishiro.png" (leer lassen = Platzhalter)
-const characters = [
-    {
-      id: "shishiro",
-      name: "Shishiro Norimatsu",
-      player: "gespielt von Ali (aligelbrot)",
-      image: "images/shishiro.png",
-      story: [
-        "Shishiro Norimatsu ist der ältere Sohn der Familie Norimatsu. Schon früh wurde er von seinem Vater zu Disziplin, Höflichkeit und Verantwortungsbewusstsein erzogen. Als ältester Sohn lernte er, seine eigenen Bedürfnisse zurückzustellen und den Erwartungen seiner Familie gerecht zu werden.",
-        "Seit dem Verlust seiner Eltern trägt Shishiro die Verantwortung für seinen jüngeren Bruder Sora. Pflichtbewusst und mit einem ausgeprägten Gerechtigkeitssinn versucht er, seiner neuen Rolle gerecht zu werden. Doch hinter seiner zurückhaltenden Art steckt auch jemand, der lernen muss, nicht jede Last allein tragen zu wollen."
-      ]
-    },
-    {
-      id: "sora",
-      name: "Sora Norimatsu",
-      player: "gespielt von VaultHunter97",
-      image: "images/sora.png",
-      story: [
-        "Sora Norimatsu ist der jüngste Sohn der Familie Norimatsu und das genaue Gegenteil seines älteren Bruders. Schon als Kind zog es ihn lieber nach draußen, statt sich an feste Regeln und strenge Tagesabläufe zu halten. Autorität allein durch Alter oder Rang zu akzeptieren, kam für ihn nie infrage.",
-        "Nach dem Verlust seiner Eltern versucht sein Bruder Shishiro, die Verantwortung für die Familie zu übernehmen. Doch Sora möchte seinen eigenen Weg gehen. Für ihn entsteht echter Respekt nicht durch blinden Gehorsam, sondern durch gegenseitiges Vertrauen und die eigenen Taten. Er möchte beweisen, dass man Traditionen achten kann, ohne sich ihnen bedingungslos unterwerfen zu müssen."
-      ]
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --text: #e8e9ee;
+      --muted: #9aa0b2;
+      --accent: #ff8a3d;
     }
-  ];
-  
-  // ===== AB HIER NICHTS ÄNDERN =====
 
-  const cardsEl = document.getElementById("cards");
-  const detailEl = document.getElementById("detail");
+    * {
+      box-sizing: border-box;
+    }
 
-  function esc(s) {
-    return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+    }
 
-  function imgOrPlaceholder(c, cls, fallbackCls) {
-    if (!c.image) return `<div class="${fallbackCls}">Bild folgt</div>`;
-    return `<img class="${cls}" src="${esc(c.image)}" alt="${esc(c.name)}"
-             onerror="this.outerHTML='<div class=&quot;${fallbackCls}&quot;>Bild folgt</div>'">`;
-  }
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
 
-  characters.forEach(c => {
-    const btn = document.createElement("button");
-    btn.className = "card";
-    btn.innerHTML = `
-      <div class="thumb">${c.image
-        ? `<img src="${esc(c.image)}" alt="${esc(c.name)}" onerror="this.outerHTML='?'">`
-        : "?"}</div>
-      <div class="label"><strong>${esc(c.name)}</strong><span>${esc(c.player)}</span></div>`;
-    btn.addEventListener("click", () => show(c.id, true));
-    cardsEl.appendChild(btn);
-  });
+    h1 {
+      font-size: 2rem;
+      margin: 0 0 8px;
+      color: var(--accent);
+    }
 
-  function show(id, scroll) {
-    const c = characters.find(x => x.id === id);
-    if (!c) return hide();
-    detailEl.innerHTML = `
-      <button class="back" id="backBtn">← Zurück</button>
-      ${imgOrPlaceholder(c, "portrait", "placeholder")}
-      <h2 style="margin-top:0">${esc(c.name)}</h2>
-      <p class="muted">${esc(c.player)}</p>
-      ${c.story.map(p => `<p>${esc(p)}</p>`).join("")}`;
-    detailEl.classList.add("open");
-    document.getElementById("backBtn").addEventListener("click", hide);
-    history.replaceState(null, "", "#" + id);
-    if (scroll) detailEl.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+    h2 {
+      font-size: 1.2rem;
+      margin: 40px 0 16px;
+    }
 
-  function hide() {
-    detailEl.classList.remove("open");
-    detailEl.innerHTML = "";
-    history.replaceState(null, "", location.pathname);
-  }
+    p {
+      margin: 0 0 12px;
+      color: var(--text);
+    }
 
-  // Direktlink zu einem Charakter, z. B. zenkai.html#sora
-  if (location.hash) show(location.hash.slice(1), false);
-</script>
+    .muted {
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 0;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      overflow: hidden;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .card:hover,
+    .card:focus-visible {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    .card .thumb {
+      aspect-ratio: 3 / 4;
+      width: 100%;
+      background: #252938;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--muted);
+    }
+
+    .card .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .card .label {
+      padding: 12px 14px;
+    }
+
+    .card .label strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+
+    .card .label span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .detail {
+      display: none;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 8px;
+    }
+
+    .detail.open {
+      display: block;
+    }
+
+    .detail img.portrait {
+      display: block;
+      width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      background: #252938;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .detail .placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #252938;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .back {
+      background: none;
+      border: 1px solid var(--muted);
+      color: var(--text);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      margin-bottom: 16px;
+    }
+
+    .back:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @media (max-width: 480px) {
+      .cards {
+        gap: 10px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <h1>Unsere Chars im Zenkai Naruto RP</h1>
+
+    <p>
+      Hey, danke für deinen Besuch! Wir spielen das Naruto-RP „Zenkai“,
+      in dem wir leben, zur Akademie gehen und uns mit vielen anderen
+      Spielern verbünden oder verfeinden. Unser Dorf ist dabei Sunagakure.
+      Es kann alles passieren und wir sind selbst gespannt!
+    </p>
+
+    <p>
+      Wenn ihr euch auch bewerben wollt, schaut auf der Homepage und
+      im Discord vorbei:
+      <a
+        href="https://zenkai-rp.de/guide"
+        target="_blank"
+        rel="noopener"
+      >zenkai-rp.de/guide</a>.
+      Ihr müsst dafür das Regelwerk und die Lore beherrschen und einen
+      Charakter mit Hintergrundgeschichte schreiben :)
+    </p>
+
+    <p class="muted">
+      Klick unten auf einen Charakter, um mehr über ihn zu erfahren.
+    </p>
+
+    <h2>Unsere Charaktere</h2>
+
+    <div class="cards" id="cards"></div>
+
+    <div class="detail" id="detail"></div>
+  </main>
+
+  <script>
+    // ===== CHARAKTERE =====
+    // Die Bilder liegen im Ordner "images" neben dieser index.html.
+
+    const characters = [
+      {
+        id: "shishiro",
+        name: "Shishiro Norimatsu",
+        player: "gespielt von Ali (aligelbrot)",
+        image: "images/shishiro.png",
+        story: [
+          "Shishiro Norimatsu ist der ältere Sohn der Familie Norimatsu. Schon früh wurde er von seinem Vater zu Disziplin, Höflichkeit und Verantwortungsbewusstsein erzogen. Als ältester Sohn lernte er, seine eigenen Bedürfnisse zurückzustellen und den Erwartungen seiner Familie gerecht zu werden.",
+          "Seit dem Verlust seiner Eltern trägt Shishiro die Verantwortung für seinen jüngeren Bruder Sora. Pflichtbewusst und mit einem ausgeprägten Gerechtigkeitssinn versucht er, seiner neuen Rolle gerecht zu werden. Doch hinter seiner zurückhaltenden Art steckt auch jemand, der lernen muss, nicht jede Last allein tragen zu wollen."
+        ]
+      },
+      {
+        id: "sora",
+        name: "Sora Norimatsu",
+        player: "gespielt von VaultHunter97",
+        image: "images/sora.png",
+        story: [
+          "Sora Norimatsu ist der jüngste Sohn der Familie Norimatsu und das genaue Gegenteil seines älteren Bruders. Schon als Kind zog es ihn lieber nach draußen, statt sich an feste Regeln und strenge Tagesabläufe zu halten. Autorität allein durch Alter oder Rang zu akzeptieren, kam für ihn nie infrage.",
+          "Nach dem Verlust seiner Eltern versucht sein Bruder Shishiro, die Verantwortung für die Familie zu übernehmen. Doch Sora möchte seinen eigenen Weg gehen. Für ihn entsteht echter Respekt nicht durch blinden Gehorsam, sondern durch gegenseitiges Vertrauen und die eigenen Taten. Er möchte beweisen, dass man Traditionen achten kann, ohne sich ihnen bedingungslos unterwerfen zu müssen."
+        ]
+      }
+    ];
+
+    // ===== DARSTELLUNG UND BEDIENUNG =====
+
+    const cardsEl = document.getElementById("cards");
+    const detailEl = document.getElementById("detail");
+
+    function createImage(character, className, fallbackClassName) {
+      const fallback = document.createElement("div");
+      fallback.className = fallbackClassName;
+      fallback.textContent = "Bild folgt";
+
+      if (!character.image) {
+        return fallback;
+      }
+
+      const img = document.createElement("img");
+      img.className = className;
+      img.src = character.image;
+      img.alt = character.name;
+
+      img.addEventListener("error", () => {
+        img.replaceWith(fallback);
+      }, { once: true });
+
+      return img;
+    }
+
+    characters.forEach((character) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "card";
+
+      const thumb = document.createElement("div");
+      thumb.className = "thumb";
+      thumb.appendChild(createImage(character, "", "muted"));
+
+      const label = document.createElement("div");
+      label.className = "label";
+
+      const name = document.createElement("strong");
+      name.textContent = character.name;
+
+      const player = document.createElement("span");
+      player.textContent = character.player;
+
+      label.append(name, player);
+      button.append(thumb, label);
+
+      button.addEventListener("click", () => {
+        show(character.id, true);
+      });
+
+      cardsEl.appendChild(button);
+    });
+
+    function show(id, shouldScroll) {
+      const character = characters.find((item) => item.id === id);
+
+      if (!character) {
+        hide();
+        return;
+      }
+
+      detailEl.replaceChildren();
+
+      const backButton = document.createElement("button");
+      backButton.type = "button";
+      backButton.className = "back";
+      backButton.textContent = "← Zurück";
+      backButton.addEventListener("click", hide);
+
+      const portrait = createImage(
+        character,
+        "portrait",
+        "placeholder"
+      );
+
+      const heading = document.createElement("h2");
+      heading.style.marginTop = "0";
+      heading.textContent = character.name;
+
+      const player = document.createElement("p");
+      player.className = "muted";
+      player.textContent = character.player;
+
+      detailEl.append(backButton, portrait, heading, player);
+
+      character.story.forEach((text) => {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = text;
+        detailEl.appendChild(paragraph);
+      });
+
+      detailEl.classList.add("open");
+      updateHash(character.id);
+
+      if (shouldScroll) {
+        detailEl.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    }
+
+    function hide() {
+      detailEl.classList.remove("open");
+      detailEl.replaceChildren();
+      updateHash("");
+    }
+
+    function updateHash(id) {
+      try {
+        const url = new URL(window.location.href);
+        url.hash = id;
+        window.history.replaceState(null, "", url.href);
+      } catch {
+        // Die Darstellung funktioniert auch ohne Änderung der Adresse.
+      }
+    }
+
+    // Direktlinks unterstützen, zum Beispiel /zenkai/#sora.
+    function showFromHash() {
+      const id = window.location.hash.slice(1);
+
+      if (id) {
+        show(id, false);
+      } else {
+        hide();
+      }
+    }
+
+    window.addEventListener("hashchange", showFromHash);
+    showFromHash();
+  </script>
 </body>
 </html>
