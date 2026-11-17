@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zenkai – Naruto RP</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --text: #e8e9ee;
+    --muted: #9aa0b2;
+    --accent: #ff8a3d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 2rem; margin: 0 0 8px; color: var(--accent); }
+  h2 { font-size: 1.2rem; margin: 40px 0 16px; }
+  p { margin: 0 0 12px; color: var(--text); }
+  .muted { color: var(--muted); }
+
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card {
+    background: var(--card);
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    overflow: hidden;
+    transition: transform .15s, border-color .15s;
+  }
+  .card:hover, .card:focus-visible { transform: translateY(-3px); border-color: var(--accent); outline: none; }
+  .card .thumb { aspect-ratio: 1 / 1; width: 100%; background: #252938; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--muted); }
+  .card .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card .label { padding: 12px 14px; }
+  .card .label strong { display: block; font-size: 1.05rem; }
+  .card .label span { font-size: .85rem; color: var(--muted); }
+
+  .detail { display: none; background: var(--card); border-radius: 14px; padding: 20px; margin-top: 8px; }
+  .detail.open { display: block; }
+  .detail img.portrait { width: 100%; max-height: 480px; object-fit: contain; background: #252938; border-radius: 10px; margin-bottom: 16px; }
+  .detail .placeholder { width: 100%; aspect-ratio: 4 / 3; background: #252938; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--muted); margin-bottom: 16px; }
+  .back { background: none; border: 1px solid var(--muted); color: var(--text); padding: 6px 14px; border-radius: 8px; cursor: pointer; font: inherit; margin-bottom: 16px; }
+  .back:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 480px) { .cards { gap: 10px; } h1 { font-size: 1.6rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== ERKLÄRUNG: hier Text anpassen ===== -->
+  <h1>Zenkai</h1>
+  <p>
+    Zenkai ist ein Naruto-Roleplay-Server. Hier erklärst du kurz, worum es geht:
+    wie das RP funktioniert, was die Spieler erleben und warum ihr dabei seid.
+  </p>
+  <p class="muted">Klick unten auf einen Charakter, um mehr über ihn zu erfahren.</p>
+
+  <h2>Unsere Charaktere</h2>
+  <div class="cards" id="cards"></div>
+
+  <div class="detail" id="detail"></div>
+
+</div>
+
+<script>
+  // ===== HIER DEINE CHARAKTERE EINTRAGEN =====
+  // image: Pfad zum Bild im Repo, z. B. "images/shishiro.jpg" (leer lassen = Platzhalter)
+  const characters = [
+    {
+      id: "shishiro",
+      name: "Shishiro Norimatsu",
+      player: "gespielt von Ali (aligelbrot)",
+      image: "images/shishiro.jpg",
+      story: [
+        "Hier kommt die Geschichte von Shishiro hin.",
+        "Du kannst mehrere Absätze verwenden – jeder Eintrag in dieser Liste wird ein eigener Absatz."
+      ]
+    },
+    {
+      id: "sora",
+      name: "Sora",
+      player: "gespielt von VaultHunter97",
+      image: "images/sora.jpg",
+      story: [
+        "Hier kommt die Geschichte von Sora hin.",
+        "Auch hier: ein Eintrag pro Absatz."
+      ]
+    }
+  ];
+  // ===== AB HIER NICHTS ÄNDERN =====
+
+  const cardsEl = document.getElementById("cards");
+  const detailEl = document.getElementById("detail");
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  }
+
+  function imgOrPlaceholder(c, cls, fallbackCls) {
+    if (!c.image) return `<div class="${fallbackCls}">Bild folgt</div>`;
+    return `<img class="${cls}" src="${esc(c.image)}" alt="${esc(c.name)}"
+             onerror="this.outerHTML='<div class=&quot;${fallbackCls}&quot;>Bild folgt</div>'">`;
+  }
+
+  characters.forEach(c => {
+    const btn = document.createElement("button");
+    btn.className = "card";
+    btn.innerHTML = `
+      <div class="thumb">${c.image
+        ? `<img src="${esc(c.image)}" alt="${esc(c.name)}" onerror="this.outerHTML='?'">`
+        : "?"}</div>
+      <div class="label"><strong>${esc(c.name)}</strong><span>${esc(c.player)}</span></div>`;
+    btn.addEventListener("click", () => show(c.id, true));
+    cardsEl.appendChild(btn);
+  });
+
+  function show(id, scroll) {
+    const c = characters.find(x => x.id === id);
+    if (!c) return hide();
+    detailEl.innerHTML = `
+      <button class="back" id="backBtn">← Zurück</button>
+      ${imgOrPlaceholder(c, "portrait", "placeholder")}
+      <h2 style="margin-top:0">${esc(c.name)}</h2>
+      <p class="muted">${esc(c.player)}</p>
+      ${c.story.map(p => `<p>${esc(p)}</p>`).join("")}`;
+    detailEl.classList.add("open");
+    document.getElementById("backBtn").addEventListener("click", hide);
+    history.replaceState(null, "", "#" + id);
+    if (scroll) detailEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function hide() {
+    detailEl.classList.remove("open");
+    detailEl.innerHTML = "";
+    history.replaceState(null, "", location.pathname);
+  }
+
+  // Direktlink zu einem Charakter, z. B. zenkai.html#sora
+  if (location.hash) show(location.hash.slice(1), false);
+</script>
+</body>
+</html>
