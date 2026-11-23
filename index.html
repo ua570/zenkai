@@ -13,6 +13,9 @@
       --muted: #9aa0b2;
       --accent: #ff8a3d;
       --twitch: #bf94ff;
+      --ok: #4ade80;
+      --wait: #fbbf24;
+      --line: #2a2f3f;
     }
 
     * {
@@ -212,6 +215,218 @@
         font-size: 1.6rem;
       }
     }
+
+    /* ===== CHARAKTERBOGEN ===== */
+
+    .bogen .bogen-title {
+      margin: 32px 0 12px;
+    }
+
+    .bogen .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .bogen .badge {
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .bogen .bogen-card {
+      background: #141720;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .bogen h3 {
+      margin: 0 0 12px;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .bogen .big {
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* Chakra-Natur */
+    .bogen .chakra {
+      --el: #8b92a5;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 6px 0 6px 6px;
+    }
+
+    .bogen .ring {
+      position: relative;
+      flex: none;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--el);
+      background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--el) 35%, transparent), transparent 70%);
+      box-shadow:
+        0 0 26px color-mix(in srgb, var(--el) 55%, transparent),
+        inset 0 0 18px color-mix(in srgb, var(--el) 40%, transparent);
+      animation: bogen-pulse 3s ease-in-out infinite;
+    }
+
+    .bogen .ring::before {
+      content: "";
+      position: absolute;
+      inset: -9px;
+      border-radius: 50%;
+      border: 2px dashed color-mix(in srgb, var(--el) 60%, transparent);
+      animation: bogen-spin 16s linear infinite;
+    }
+
+    .bogen .ring span {
+      font-size: 46px;
+      line-height: 1;
+      color: var(--el);
+      text-shadow: 0 0 14px var(--el);
+    }
+
+    .bogen .ring.unknown {
+      box-shadow: none;
+      animation: none;
+      opacity: 0.75;
+    }
+
+    .bogen .ring.unknown::before {
+      animation-duration: 40s;
+    }
+
+    @keyframes bogen-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes bogen-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bogen .ring,
+      .bogen .ring::before {
+        animation: none;
+      }
+    }
+
+    /* Prüfungen */
+    .bogen .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .bogen .step {
+      flex: 1 1 180px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .bogen .dot {
+      flex: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      border: 2px solid var(--wait);
+      color: var(--wait);
+    }
+
+    .bogen .step.done .dot {
+      border-color: var(--ok);
+      color: var(--ok);
+      background: rgba(74, 222, 128, 0.12);
+    }
+
+    .bogen .slabel {
+      font-weight: 600;
+    }
+
+    .bogen .sstat {
+      font-size: 0.85rem;
+      color: var(--wait);
+    }
+
+    .bogen .step.done .sstat {
+      color: var(--ok);
+    }
+
+    /* Chips und Ränge */
+    .bogen .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .bogen .chip {
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: #202431;
+      border: 1px solid var(--line);
+      font-size: 0.9rem;
+    }
+
+    .bogen .chip.done::before {
+      content: "✓ ";
+      color: var(--ok);
+      font-weight: 700;
+    }
+
+    .bogen .rank {
+      display: flex;
+      gap: 14px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .bogen .rank:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .bogen .rank {
+      align-items: center;
+    }
+
+    .bogen .rank b {
+      flex: none;
+      width: 96px;
+    }
+
+    .bogen .chip.rang {
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .bogen .list {
+      margin: 0;
+      padding-left: 18px;
+    }
   </style>
 </head>
 
@@ -263,7 +478,39 @@
         story: [
           "Shishiro Norimatsu ist der ältere Sohn der Familie Norimatsu. Schon früh wurde er von seinem Vater zu Disziplin, Höflichkeit und Verantwortungsbewusstsein erzogen. Als ältester Sohn lernte er, seine eigenen Bedürfnisse zurückzustellen und den Erwartungen seiner Familie gerecht zu werden.",
           "Seit dem Verlust seiner Eltern trägt Shishiro die Verantwortung für seinen jüngeren Bruder Sora. Pflichtbewusst und mit einem ausgeprägten Gerechtigkeitssinn versucht er, seiner neuen Rolle gerecht zu werden. Doch hinter seiner zurückhaltenden Art steckt auch jemand, der lernen muss, nicht jede Last allein tragen zu wollen."
-        ]
+        ],
+        // Charakterbogen: hier pflegst du die Daten.
+        // chakra: null = noch offen, sonst "katon", "suiton", "futon", "raiton" oder "doton"
+        // status bei Prüfungen: "done" oder "pending"
+        // training: rang "D", "C" ... oder null = noch kein Training
+        // Einzelne Jutsu stehen bewusst nicht drin, nur Natur und Rang.
+        bogen: {
+          alter: 9,
+          rang: "Genin",
+          kampfkunst: "Taijutsu",
+          chakra: "futon",
+          pruefungen: [
+            { name: "Genin-Prüfung", status: "done" },
+            { name: "Bestätigter Genin", status: "pending" }
+          ],
+          faecher: [
+            "Mudras",
+            "Chakrasprung",
+            "Die goldenen Regeln des Ninja",
+            "Hausregeln",
+            "Jutsu des Tauschens",
+            "Der Weg des Nindo",
+            "Geschichte Konohas",
+            "Das Leben",
+            "Gesetz der Wüste"
+          ],
+          training: [
+            { name: "Futon", rang: "D" },
+            { name: "Taijutsu", rang: "D" }
+          ],
+          spezialisierung: null,
+          missionen: ["Affenjagd", "Aufräumen der Stadt"]
+        }
       },
       {
         id: "sora",
@@ -274,7 +521,34 @@
         story: [
           "Sora Norimatsu ist der jüngste Sohn der Familie Norimatsu und das genaue Gegenteil seines älteren Bruders. Schon als Kind zog es ihn lieber nach draußen, statt sich an feste Regeln und strenge Tagesabläufe zu halten. Autorität allein durch Alter oder Rang zu akzeptieren, kam für ihn nie infrage.",
           "Nach dem Verlust seiner Eltern versucht sein Bruder Shishiro, die Verantwortung für die Familie zu übernehmen. Doch Sora möchte seinen eigenen Weg gehen. Für ihn entsteht echter Respekt nicht durch blinden Gehorsam, sondern durch gegenseitiges Vertrauen und die eigenen Taten. Er möchte beweisen, dass man Traditionen achten kann, ohne sich ihnen bedingungslos unterwerfen zu müssen."
-        ]
+        ],
+        bogen: {
+          alter: 8,
+          rang: "Genin",
+          kampfkunst: "Kenjutsu",
+          chakra: "raiton",
+          pruefungen: [
+            { name: "Genin-Prüfung", status: "done" },
+            { name: "Bestätigter Genin", status: "pending" }
+          ],
+          faecher: [
+            "Mudras",
+            "Chakrasprung",
+            "Die goldenen Regeln des Ninja",
+            "Hausregeln",
+            "Jutsu des Tauschens",
+            "Der Weg des Nindo",
+            "Geschichte Konohas",
+            "Das Leben",
+            "Gesetz der Wüste"
+          ],
+          training: [
+            { name: "Raiton", rang: "D" },
+            { name: "Kenjutsu", rang: null }
+          ],
+          spezialisierung: null,
+          missionen: ["Affenjagd", "Aufräumen der Stadt"]
+        }
       }
     ];
 
@@ -366,6 +640,156 @@
       cardsEl.appendChild(card);
     });
 
+    // ===== CHARAKTERBOGEN =====
+
+    const ELEMENTS = {
+      katon:  { name: "Katon",  label: "Feuer",  kanji: "火", color: "#ff6a3d" },
+      suiton: { name: "Suiton", label: "Wasser", kanji: "水", color: "#3da5ff" },
+      futon:  { name: "Futon",  label: "Wind",   kanji: "風", color: "#6ee7b7" },
+      raiton: { name: "Raiton", label: "Blitz",  kanji: "雷", color: "#fde047" },
+      doton:  { name: "Doton",  label: "Erde",   kanji: "土", color: "#c08a5a" }
+    };
+
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+
+      if (className) {
+        node.className = className;
+      }
+
+      if (text !== undefined) {
+        node.textContent = text;
+      }
+
+      return node;
+    }
+
+    function bogenCard(title, ...children) {
+      const card = el("section", "bogen-card");
+      card.appendChild(el("h3", "", title));
+      card.append(...children);
+      return card;
+    }
+
+    function chakraBlock(key) {
+      const wrap = el("div", "chakra");
+      const ring = el("div", "ring");
+      const symbol = el("span", "", "?");
+      const text = el("div");
+
+      if (!key) {
+        ring.classList.add("unknown");
+        text.append(
+          el("div", "big", "Noch nicht bestimmt"),
+          el("div", "muted", "Kommt noch")
+        );
+      } else {
+        const info = ELEMENTS[key] || {
+          name: key, label: "", kanji: "?", color: "#ff8a3d"
+        };
+        wrap.style.setProperty("--el", info.color);
+        symbol.textContent = info.kanji;
+
+        const name = el("div", "big", info.name);
+        name.style.color = info.color;
+        text.append(name, el("div", "muted", info.label));
+      }
+
+      ring.appendChild(symbol);
+      wrap.append(ring, text);
+      return wrap;
+    }
+
+    function trainingRows(list) {
+      const fragment = document.createDocumentFragment();
+
+      if (list.length === 0) {
+        fragment.appendChild(el("span", "muted", "Noch keine Einträge"));
+        return fragment;
+      }
+
+      list.forEach((entry) => {
+        const row = el("div", "rank");
+        const chips = el("div", "chips");
+
+        if (entry.rang) {
+          chips.appendChild(el("span", "chip rang", entry.rang + "-Rang"));
+        } else {
+          chips.appendChild(el("span", "muted", "Noch kein Training"));
+        }
+
+        row.append(el("b", "", entry.name), chips);
+        fragment.appendChild(row);
+      });
+
+      return fragment;
+    }
+
+    function createBogen(data) {
+      const root = el("div", "bogen");
+      root.appendChild(el("h2", "bogen-title", "Charakterbogen"));
+
+      const badges = el("div", "badges");
+      badges.append(
+        el("span", "badge", data.alter + " Jahre"),
+        el("span", "badge", data.rang),
+        el("span", "badge", data.kampfkunst)
+      );
+      root.appendChild(badges);
+
+      // Chakra-Natur
+      root.appendChild(bogenCard("Chakra-Natur", chakraBlock(data.chakra)));
+
+      // Prüfungen
+      const steps = el("div", "steps");
+      data.pruefungen.forEach((exam) => {
+        const done = exam.status === "done";
+        const step = el("div", done ? "step done" : "step");
+        const info = el("div");
+        info.append(
+          el("div", "slabel", exam.name),
+          el("div", "sstat", done ? "Bestanden" : "Steht aus")
+        );
+        step.append(el("div", "dot", done ? "✓" : "…"), info);
+        steps.appendChild(step);
+      });
+      root.appendChild(bogenCard("Prüfungen", steps));
+
+      // Unterrichtsfächer
+      const subjects = el("div", "chips");
+      if (data.faecher.length === 0) {
+        subjects.appendChild(el("span", "muted", "Noch keine Einträge"));
+      } else {
+        data.faecher.forEach((subject) => {
+          subjects.appendChild(el("span", "chip done", subject));
+        });
+      }
+      root.appendChild(bogenCard("Besuchte Unterrichtsfächer", subjects));
+
+      // Training (nur Natur und Rang, keine einzelnen Jutsu)
+      root.appendChild(bogenCard("Training", trainingRows(data.training)));
+
+      // Spezialisierung
+      const special = data.spezialisierung
+        ? el("div", "big", data.spezialisierung)
+        : el("span", "muted", "Noch offen");
+      root.appendChild(bogenCard("Spezialisierung", special));
+
+      // Missionen
+      let missions;
+      if (data.missionen.length === 0) {
+        missions = el("span", "muted", "Noch keine Einträge");
+      } else {
+        missions = el("ul", "list");
+        data.missionen.forEach((mission) => {
+          missions.appendChild(el("li", "", mission));
+        });
+      }
+      root.appendChild(bogenCard("Missionen", missions));
+
+      return root;
+    }
+
     function show(id, shouldScroll) {
       const character = characters.find((item) => item.id === id);
 
@@ -404,6 +828,10 @@
         paragraph.textContent = text;
         detailEl.appendChild(paragraph);
       });
+
+      if (character.bogen) {
+        detailEl.appendChild(createBogen(character.bogen));
+      }
 
       detailEl.classList.add("open");
       updateHash(character.id);
