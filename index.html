@@ -483,15 +483,17 @@
         // chakra: null = noch offen, sonst "katon", "suiton", "futon", "raiton" oder "doton"
         // status bei Prüfungen: "done" oder "pending"
         // training: rang "D", "C" ... oder null = noch kein Training
+        // kekkeiGenkai: null = keines, sonst { name: "Deiton", rang: "D" }
         // Einzelne Jutsu stehen bewusst nicht drin, nur Natur und Rang.
         bogen: {
           alter: 9,
           rang: "Genin",
           kampfkunst: "Taijutsu",
           chakra: "futon",
+          kekkeiGenkai: null,
           pruefungen: [
             { name: "Genin-Prüfung", status: "done" },
-            { name: "Bestätigter Genin", status: "pending" }
+            { name: "Bestätigter Genin", status: "done" }
           ],
           faecher: [
             "Mudras",
@@ -508,7 +510,7 @@
             { name: "Futon", rang: "D" },
             { name: "Taijutsu", rang: "D" }
           ],
-          spezialisierung: null,
+          spezialisierung: "Heiler",
           missionen: ["Affenjagd", "Aufräumen der Stadt"]
         }
       },
@@ -527,6 +529,7 @@
           rang: "Genin",
           kampfkunst: "Kenjutsu",
           chakra: "raiton",
+          kekkeiGenkai: { name: "Deiton", rang: "D" },
           pruefungen: [
             { name: "Genin-Prüfung", status: "done" },
             { name: "Bestätigter Genin", status: "pending" }
@@ -540,11 +543,13 @@
             "Der Weg des Nindo",
             "Geschichte Konohas",
             "Das Leben",
-            "Gesetz der Wüste"
+            "Gesetz der Wüste",
+            "Genjutsus verstehen",
+            "Anker"
           ],
           training: [
             { name: "Raiton", rang: "D" },
-            { name: "Kenjutsu", rang: null }
+            { name: "Kenjutsu", rang: "D" }
           ],
           spezialisierung: null,
           missionen: ["Affenjagd", "Aufräumen der Stadt"]
@@ -739,6 +744,12 @@
 
       // Chakra-Natur
       root.appendChild(bogenCard("Chakra-Natur", chakraBlock(data.chakra)));
+
+      // Kekkei Genkai
+      const kekkei = data.kekkeiGenkai
+        ? trainingRows([data.kekkeiGenkai])
+        : el("span", "muted", "Keines");
+      root.appendChild(bogenCard("Kekkei Genkai", kekkei));
 
       // Prüfungen
       const steps = el("div", "steps");
